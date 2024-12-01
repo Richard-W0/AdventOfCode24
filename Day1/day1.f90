@@ -1,8 +1,9 @@
 program day1
+  USE ISO_FORTRAN_ENV, ONLY: INT32
   implicit none
   integer, allocatable :: array1(:), array2(:)
 
-  integer :: i, rivit, ios
+  integer :: i, rivit, ios, n, j, temp
   character(len = 100) :: rivi
   character(len = 10) :: tiedosto
 
@@ -23,14 +24,36 @@ program day1
 
   OPEN(UNIT=10, FILE=tiedosto, STATUS="OLD", ACTION="READ")
   do i = 1, rivit
-    read(10, *, iostat = ios) array1(i), array2(i)
+    read(10,'(i6, 1x, i6)', iostat = ios) array1(i), array2(i)
     if(ios /= 0) then
       print *, "error rivillä ", i
       stop
     end if
+    PRINT "(A, I0, A, I0)", "Line ", i, ": array1 = ", array1(i), ", array2 = ", array2(i)
   end do
   close(10)
 
+  do i = 1, n - 1
+    do j = 1, n - i
+      if (array1(j) > array1(j + 1)) then
+      temp = array1(j)
+      array1(j) = array1(j + 1)
+      array1(j + 1) = temp
+      end if
+    end do
+  end do
+
+  do i = 1, n - 1
+    do j = 1, n - i
+      if (array2(j) > array2(j + 1)) then
+      temp = array2(j)
+      array2(j) = array2(j + 1)
+      array2(j + 1) = temp
+      end if
+    end do
+end do
+
+     
   PRINT *, "Array 1:"
   PRINT *, array1
   PRINT *, "Array 2:"
