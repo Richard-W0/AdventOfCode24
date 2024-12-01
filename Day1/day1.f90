@@ -1,5 +1,4 @@
 program day1
-  !use stdlib_sorting, only: sort
   implicit none
   integer, allocatable :: array1(:), array2(:)
 
