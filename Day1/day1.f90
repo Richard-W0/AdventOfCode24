@@ -1,7 +1,7 @@
 program day1
   USE ISO_FORTRAN_ENV, ONLY: INT32
   implicit none
-  integer, allocatable :: array1(:), array2(:)
+  integer, allocatable :: array1(:), array2(:), tulos(:)
 
   integer :: i, rivit, ios, n, j, temp
   character(len = 100) :: rivi
@@ -20,7 +20,9 @@ program day1
   close(10)
   print *, rivit
 
-  allocate(array1(rivit), array2(rivit))
+  allocate(array1(rivit), array2(rivit), tulos(rivit))
+
+  n = rivit
 
   OPEN(UNIT=10, FILE=tiedosto, STATUS="OLD", ACTION="READ")
   do i = 1, rivit
@@ -29,7 +31,6 @@ program day1
       print *, "error rivillä ", i
       stop
     end if
-    PRINT "(A, I0, A, I0)", "Line ", i, ": array1 = ", array1(i), ", array2 = ", array2(i)
   end do
   close(10)
 
@@ -53,14 +54,14 @@ program day1
     end do
 end do
 
-     
-  PRINT *, "Array 1:"
-  PRINT *, array1
-  PRINT *, "Array 2:"
-  PRINT *, array2
+  do i = 1, n
+    tulos(i) = abs(array1(i) - array2(i))
+  end do
 
+  print *, sum(tulos)
 
   deallocate(array1)
   deallocate(array2)
+  deallocate(tulos)
 
 end program day1
