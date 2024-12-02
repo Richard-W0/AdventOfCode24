@@ -3,7 +3,7 @@ program day1
   implicit none
   integer, allocatable :: array1(:), array2(:), tulos(:)
 
-  integer :: i, rivit, ios, n, j, temp
+  integer :: i, rivit, ios, n, j, temp, samanlaisuus, maara
   character(len = 100) :: rivi
   character(len = 10) :: tiedosto
 
@@ -59,6 +59,19 @@ end do
   end do
 
   print *, sum(tulos)
+  samanlaisuus = 0
+
+  do i = 1, n
+    maara = 0
+    do j = 1, n
+      if (array1(i) == array2(j)) then
+        maara = maara + 1
+      end if
+    end do
+    samanlaisuus = samanlaisuus + array1(i) * maara
+  
+  end do
+  print *, "Samanlaisuus on", samanlaisuus
 
   deallocate(array1)
   deallocate(array2)
