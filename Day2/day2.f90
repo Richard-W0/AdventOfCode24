@@ -11,6 +11,10 @@ program day2
     logical function analysoi(level, n)
       integer, intent(in) :: level(:), n
     end function analysoi
+
+    logical function analysoiPart2(level, n)
+      integer, intent(in) :: level(:), n
+    end function analysoiPart2
   end interface
 
   tiedosto = "paiva2.txt"
@@ -44,13 +48,10 @@ program day2
       exit
     end if
     
-    tulos = analysoi(rivi, n)
+    tulos = analysoi(rivi, n) .or. analysoiPart2(rivi, n)
 
     if (tulos) then
       hyvatRivit = hyvatRivit + 1 
-    end if
-
-    if (hyvatRivit == 1) then
     end if
 
     deallocate(rivi)
@@ -96,3 +97,34 @@ logical function analysoi(level, n)
 
   analysoi = laskeva .or. nouseva
 end function analysoi
+
+logical function analysoiPart2(level, n)
+  implicit none
+  integer, intent(in) :: level(:), n
+  integer, allocatable :: temp(:)
+  integer :: i, j, k
+  logical :: turvallinen
+
+  interface
+    logical function analysoi(level, n)
+      integer, intent(in) :: level(:), n
+    end function analysoi
+  end interface
+  
+  do j = 1, n
+    allocate(temp(n-1))
+    temp(:) = pack(level, (/ (k /= j, k=1, n) /)) !some mask stuff (I think???), I genuenly dont understand what this does but it works ig
+
+    turvallinen = analysoi(temp, n-1) !I think you can just do this but not sure(update: we could in fact not just do that,
+    !interface was needed)
+    if (turvallinen) then
+      analysoiPart2 = .true.
+      deallocate(temp)
+      return
+    end if
+
+    deallocate(temp)
+  end do
+
+
+end function analysoiPart2
