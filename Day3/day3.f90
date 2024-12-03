@@ -16,7 +16,7 @@ program day3
   temp = ""
 
   do
-    !riviPituus = 0
+    riviPituus = 0
     read(10, '(A)', iostat=ios) riviPituus
 
     if (ios /= 0) exit
@@ -24,9 +24,10 @@ program day3
 
     read(10, '(A)', iostat=ios) rivi
     if (ios /= 0) exit 
+    print *, trim(rivi)
 
     temp = trim(temp) // trim(rivi) !string concatenation or something, idk this thing is weird
-    !print *, temp
+    print *, temp
     deallocate(rivi)
   end do
   close(10)
