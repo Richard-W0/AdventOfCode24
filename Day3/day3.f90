@@ -26,7 +26,7 @@ program day3
     if (ios /= 0) exit 
 
     temp = trim(temp) // trim(rivi) !string concatenation or something, idk this thing is weird
-    print *, temp
+    !print *, temp
     deallocate(rivi)
   end do
   close(10)
@@ -34,7 +34,45 @@ program day3
   total = 0
   alotus = 1
 
-  
+ do
+    alotus = index(temp(alotus:), "mul(")
+    if (alotus == 0) exit 
+    alotus = alotus + 4 !skip the "mul("
+    print *,"alotus", alotus
 
+    read(temp(alotus:), '(I3)', iostat=ios) x
+    if (ios == 0) then
+      alotus = alotus + 1
+      cycle
+    end if
+    print *, x
 
+    lopetus = index(temp(alotus:), ",")
+    if (lopetus == 0) then
+      alotus = alotus + 1
+      cycle
+    end if
+
+    alotus = alotus + lopetus
+    print *, alotus
+
+    read(temp(alotus:), '(I3)', iostat=ios) y
+    if (ios == 0) then
+      alotus = alotus + 1
+      cycle
+    end if
+
+    lopetus = index(temp(alotus:), ")")
+    if (lopetus == 0) then
+      alotus = alotus + 1
+      cycle
+    end if
+
+    total = total + (x * y)
+    print *, total
+
+    alotus = alotus + lopetus
+  end do
+
+  print *, total
 end program day3
