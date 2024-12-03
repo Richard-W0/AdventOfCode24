@@ -52,6 +52,10 @@ program day2
       hyvatRivit = hyvatRivit + 1 
     end if
 
+    if (hyvatRivit == 1) then
+      print *, "eka"
+    end if
+
     deallocate(rivi)
     deallocate(tempLista)
 
@@ -73,10 +77,6 @@ logical function analysoi(level, n)
 
   laskeva = .true.
   nouseva = .true.
-  if (n < 2) then
-    analysoi = .false.
-    return
-  end if
 
   do i = 1, n - 1
     if (i + 1 > n) then
@@ -85,14 +85,16 @@ logical function analysoi(level, n)
       return
     end if
 
-    if (level(i) == 0) cycle 
     if(level(i+1) - level(i) < 1 .or. level(i+1) - level(i) >3) then
       analysoi = .false.
       return
     end if
 
-    if (level(i+1) - level(i) <= 0) nouseva = .false.
-    if (level(i+1) - level(i) >= 0) laskeva = .false.
+    if (level(i+1) > level(i)) then
+      laskeva = .false.
+    elseif (level(i+1) < level(i)) then
+      nouseva = .false.
+    end if
   end do
 
   analysoi = laskeva .or. nouseva
