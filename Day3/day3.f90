@@ -16,7 +16,7 @@ program day3
   temp = ""
 
   do
-    riviPituus = 0
+    !riviPituus = 0
     read(10, '(A)', iostat=ios) riviPituus
 
     if (ios /= 0) exit
@@ -38,10 +38,9 @@ program day3
     alotus = index(temp(alotus:), "mul(")
     if (alotus == 0) exit 
     alotus = alotus + 4 !skip the "mul("
-    print *,"alotus", alotus
 
     read(temp(alotus:), '(I3)', iostat=ios) x
-    if (ios == 0) then
+    if (ios /= 0) then
       alotus = alotus + 1
       cycle
     end if
@@ -54,13 +53,13 @@ program day3
     end if
 
     alotus = alotus + lopetus
-    print *, alotus
 
     read(temp(alotus:), '(I3)', iostat=ios) y
-    if (ios == 0) then
+    if (ios /= 0) then
       alotus = alotus + 1
       cycle
     end if
+    print *, y
 
     lopetus = index(temp(alotus:), ")")
     if (lopetus == 0) then
