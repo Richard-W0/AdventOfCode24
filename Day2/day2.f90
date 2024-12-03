@@ -44,8 +44,6 @@ program day2
       exit
     end if
     
-    print *, "Rivi=", (rivi)
-
     tulos = analysoi(rivi, n)
 
     if (tulos) then
@@ -53,7 +51,6 @@ program day2
     end if
 
     if (hyvatRivit == 1) then
-      print *, "eka"
     end if
 
     deallocate(rivi)
@@ -79,13 +76,14 @@ logical function analysoi(level, n)
   nouseva = .true.
 
   do i = 1, n - 1
+    print *, "Verrataan", level(i+1), "ja", level(i)
     if (i + 1 > n) then
       print *, "Error: Accessing out of bounds."
       analysoi = .false.
       return
     end if
 
-    if(level(i+1) - level(i) < 1 .or. level(i+1) - level(i) >3) then
+    if (abs(level(i + 1) - level(i))> 3) then
       analysoi = .false.
       return
     end if
