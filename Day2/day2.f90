@@ -26,6 +26,7 @@ program day2
       exit
     end if
 
+    buffer = trim(adjustl(buffer))
     allocate(tempLista(1000))
     tempLista = 0
 
@@ -78,13 +79,20 @@ logical function analysoi(level, n)
   end if
 
   do i = 1, n - 1
-  if(level(i+1) - level(i) < 1 .or. level(i+1) - level(i) >3) then
-    analysoi = .false.
-    return
-  end if
+    if (i + 1 > n) then
+      print *, "Error: Accessing out of bounds."
+      analysoi = .false.
+      return
+    end if
 
-  if (level(i+1) - level(i) <= 0) nouseva = .false.
-  if (level(i+1) - level(i) >= 0) laskeva = .false.
+    if (level(i) == 0) cycle 
+    if(level(i+1) - level(i) < 1 .or. level(i+1) - level(i) >3) then
+      analysoi = .false.
+      return
+    end if
+
+    if (level(i+1) - level(i) <= 0) nouseva = .false.
+    if (level(i+1) - level(i) >= 0) laskeva = .false.
   end do
 
   analysoi = laskeva .or. nouseva
