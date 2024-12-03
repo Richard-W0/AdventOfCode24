@@ -1,7 +1,7 @@
 program day2
   implicit none
   integer, allocatable ::rivi(:), tempLista(:)
-  integer :: ios, n, i
+  integer :: ios, n, i, hyvatRivit
   character (len = 10) :: tiedosto
   character(len=100) :: buffer
 
@@ -40,10 +40,19 @@ program day2
 
 
 
+
+
   end do
-
-
-
-
+  
+  close(unit=10)
 
 end program day2
+
+logical function analysoi(level, n)
+  implicit none
+  integer, intent(in) :: level(:), n
+  integer :: i
+  logical :: laskeva, nouseva
+
+  laskeva = .true.
+  nouseva = .true.
