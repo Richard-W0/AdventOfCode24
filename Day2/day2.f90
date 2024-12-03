@@ -45,8 +45,6 @@ program day2
     end if
     
     print *, "Rivi=", (rivi)
-    deallocate(rivi)
-    deallocate(tempLista)
 
     tulos = analysoi(rivi, n)
 
@@ -54,7 +52,9 @@ program day2
       hyvatRivit = hyvatRivit + 1 
     end if
 
-    print *, "Rivi=", rivi
+    deallocate(rivi)
+    deallocate(tempLista)
+
     print *, "Onko turvarivi? ", tulos
 
   end do
