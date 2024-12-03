@@ -63,7 +63,6 @@ program day2
   print *, "Hyvät rivit =", hyvatRivit
   
   close(unit=10)
-
 end program day2
 
 logical function analysoi(level, n)
@@ -83,7 +82,7 @@ logical function analysoi(level, n)
       return
     end if
 
-    if (abs(level(i + 1) - level(i))> 3) then
+    if (abs(level(i+1) - level(i)) < 1 .or. abs(level(i+1) - level(i)) > 3) then
       analysoi = .false.
       return
     end if
