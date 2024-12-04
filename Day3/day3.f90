@@ -1,8 +1,8 @@
 program day3
   implicit none
-  integer :: ios, total, x, y, alotus, lopetus, tiedostoPituus, i
+  integer :: ios, total, x, y, alotus, lopetus, tiedostoPituus, i, kerto, pilkku
   character(len = 10) :: tiedosto
-  character(len = :), allocatable :: temp
+  character(len = :), allocatable :: temp, ehdokas
   character(len=1), allocatable :: buffer(:)
 
   total = 0
@@ -30,43 +30,46 @@ program day3
   end do
 
  do
-    print *, "loopin alussa alotus on", alotus
-    alotus = index(temp(alotus:), "mul(")
+    kerto = index(temp(alotus:), "mul(")
+    if (kerto == 0) exit 
+    kerto = alotus + kerto - 1
+
+    lopetus = index(temp(kerto:), ")")
+    if (lopetus == 0) exit
+
+    lopetus = kerto + lopetus -1
+
+    ehdokas = temp(kerto:lopetus)
     
-    print *, "indexoinnin jälkeen alotus on", alotus
-    print *, temp(alotus:alotus+5)
-    if (alotus == 0) exit 
-    alotus = alotus + 4 !skip the "mul("
-
-    read(temp(alotus:), '(I3)', iostat=ios) x
-    if (ios /= 0) then
-      print *, "Error read 1", alotus, temp(alotus:alotus)
-      print *, temp(1:alotus)
-      exit
+    if (ehdokas(1:4) /= "mul(") then
+      alotus = kerto + 4
+      cycle
     end if
-    print *, "x=",x, "alotus =", alotus
 
-    lopetus = index(temp(alotus:), ",")
-    if (lopetus == 0) exit
-
-    alotus = alotus + lopetus
-
-    read(temp(alotus:), '(I3)', iostat=ios) y
-    if (ios /= 0) then
-      print *, "Error read 2"
-      exit
+    pilkku = index(ehdokas, ",")
+    if (pilkku == 0) then
+      alotus = kerto + 4
+      cycle
     end if
-    print *,"y=", y, "lopetus =", lopetus
 
-    lopetus = index(temp(alotus:), ")")
-    if (lopetus == 0) exit
-
+    read(ehdokas(5:pilkku-1), *, iostat=ios) x
+    if (ios /= 0) then
+      print *, "Invalid x in", ehdokas
+      alotus = lopetus + 1
+      cycle
+    end if
+      
+    read(ehdokas(pilkku+1:len(ehdokas)-1), *, iostat=ios) y
+    if (ios /= 0) then
+      print *, "Invalid y in", ehdokas
+      alotus = lopetus + 1
+      cycle
+    end if
+    
     total = total + (x * y)
-    print *, total
+    alotus = lopetus + 1
 
-    alotus = alotus + lopetus
-    print *, "alotus + lopetus =", alotus
-  end do
+      end do
 
   print *, total
 end program day3
