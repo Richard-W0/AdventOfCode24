@@ -26,7 +26,7 @@ program day3
   temp=""
 
   do i = 1, size(buffer)
-    temp = trim(adjustl(temp)) // buffer(i)
+    temp = trim(temp) // buffer(i)
   end do
 
  do
@@ -35,7 +35,11 @@ program day3
     kerto = alotus + kerto - 1
 
     lopetus = index(temp(kerto:), ")")
-    if (lopetus == 0) exit
+    if (lopetus > 12) then
+      print *, lopetus
+      alotus =  kerto + 4
+      cycle
+    end if
 
     lopetus = kerto + lopetus -1
 
@@ -65,7 +69,7 @@ program day3
       alotus = lopetus + 1
       cycle
     end if
-    
+    print *, y
     total = total + (x * y)
     alotus = lopetus + 1
 
