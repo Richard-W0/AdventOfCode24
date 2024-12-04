@@ -31,10 +31,13 @@ program day3
     if (kerto == 0) exit
     kerto = alotus + kerto - 1
 
-    if (index(temp(alotus:), "do()") > 0 .and. index(temp(alotus:), "do()") < kerto) enabled = .true. !these should work but they
-    ! dont for some reason
-    if (index(temp(alotus:), "don't()") > 0 .and. index(temp(alotus:), "don't()") < kerto) enabled = .false.
-
+    if (index(temp(alotus:kerto-1), "do()") > 0) then
+        enabled = .true.
+    end if
+    if (index(temp(alotus:kerto-1), "don't()") > 0) then
+        enabled = .false.
+    end if
+    
     lopetus = index(temp(kerto:), ")")
     if (lopetus > 12) then
       alotus = kerto + 4
@@ -65,6 +68,8 @@ program day3
       alotus = lopetus + 1
       cycle
     end if
+
+    print *, enabled
 
     if (enabled) total = total + (x * y)
     alotus = lopetus + 1
