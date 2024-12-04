@@ -5,6 +5,8 @@ program day3
   character(len = :), allocatable :: temp
   character(len=1), allocatable :: buffer(:)
 
+  total = 0
+  alotus = 1
 
   tiedosto = "paiva3.txt"
 
@@ -27,17 +29,19 @@ program day3
     temp = trim(adjustl(temp)) // buffer(i)
   end do
 
-  total = 0
-  alotus = 1
-
  do
+    print *, "loopin alussa alotus on", alotus
     alotus = index(temp(alotus:), "mul(")
+    
+    print *, "indexoinnin jälkeen alotus on", alotus
+    print *, temp(alotus:alotus+5)
     if (alotus == 0) exit 
     alotus = alotus + 4 !skip the "mul("
 
     read(temp(alotus:), '(I3)', iostat=ios) x
     if (ios /= 0) then
-      print *, "Error read 1", alotus
+      print *, "Error read 1", alotus, temp(alotus:alotus)
+      print *, temp(1:alotus)
       exit
     end if
     print *, "x=",x, "alotus =", alotus
@@ -61,6 +65,7 @@ program day3
     print *, total
 
     alotus = alotus + lopetus
+    temp = temp(alotus:)
     print *, "alotus + lopetus =", alotus
   end do
 
