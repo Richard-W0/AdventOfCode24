@@ -1,22 +1,22 @@
 program day3
   implicit none
-  integer :: ios, total, x, y, alotus, lopetus, tiedostoPituus, i, kerto, pilkku
+  integer :: ios, total, x, y, start, endPos, fileLength, i, mulIndex, commaPos
   logical :: enabled
-  character(len = 10) :: tiedosto
-  character(len = :), allocatable :: temp, ehdokas
+  character(len = 10) :: fileName
+  character(len = :), allocatable :: temp, candidate
   character(len=1), allocatable :: buffer(:)
 
   total = 0
-  alotus = 1
+  start = 1
   enabled = .true.
 
-  tiedosto = "paiva3.txt"
+  fileName = "paiva3.txt"
 
-  open(unit=10, file=tiedosto, status="old", access="stream", action="read", iostat=ios)
+  open(unit=10, file=fileName, status="old", access="stream", action="read", iostat=ios)
   if (ios /= 0) stop
 
-  inquire(unit=10, size=tiedostoPituus) !not exactly sure how this works, but it does
-  allocate(buffer(tiedostoPituus))
+  inquire(unit=10, size=fileLength) !not exactly sure how this works, but it does
+  allocate(buffer(fileLength))
 
   read(10) buffer
   close(10)
@@ -27,55 +27,54 @@ program day3
   end do
 
   do
-    kerto = index(temp(alotus:), "mul(")
-    if (kerto == 0) exit
-    kerto = alotus + kerto - 1
+    mulIndex = index(temp(start:), "mul(")
+    if (mulIndex == 0) exit
+    mulIndex = start + mulIndex - 1
 
-    if (index(temp(alotus:kerto-1), "do()") > 0) then
+    if (index(temp(start:mulIndex-1), "do()") > 0) then
         enabled = .true.
     end if
-    if (index(temp(alotus:kerto-1), "don't()") > 0) then
+    if (index(temp(start:mulIndex-1), "don't()") > 0) then
         enabled = .false.
     end if
-    
-    lopetus = index(temp(kerto:), ")")
-    if (lopetus > 12) then
-      alotus = kerto + 4
+
+    endPos = index(temp(mulIndex:), ")")
+    if (endPos > 12) then
+      start = mulIndex + 4
       cycle
     end if
-    lopetus = kerto + lopetus - 1
+    endPos = mulIndex + endPos - 1
 
-    ehdokas = temp(kerto:lopetus)
-    if (ehdokas(1:4) /= "mul(") then
-      alotus = kerto + 4
-      cycle
-    end if
-
-    pilkku = index(ehdokas, ",")
-    if (pilkku == 0) then
-      alotus = kerto + 4
+    candidate = temp(mulIndex:endPos)
+    if (candidate(1:4) /= "mul(") then
+      start = mulIndex + 4
       cycle
     end if
 
-    read(ehdokas(5:pilkku-1), *, iostat=ios) x
+    commaPos = index(candidate, ",")
+    if (commaPos == 0) then
+      start = mulIndex + 4
+      cycle
+    end if
+
+    read(candidate(5:commaPos-1), *, iostat=ios) x
     if (ios /= 0) then
-      alotus = lopetus + 1
+      start = endPos + 1
       cycle
     end if
       
-    read(ehdokas(pilkku+1:len(ehdokas)-1), *, iostat=ios) y
+    read(candidate(commaPos+1:len(candidate)-1), *, iostat=ios) y
     if (ios /= 0) then
-      alotus = lopetus + 1
+      start = endPos + 1
       cycle
     end if
 
     print *, enabled
 
     if (enabled) total = total + (x * y)
-    alotus = lopetus + 1
+    start = endPos + 1
   end do
 
   print *, total
 end program day3
-
 
