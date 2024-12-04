@@ -1,36 +1,31 @@
 program day3
   implicit none
-  integer :: ios, total, x, y, alotus, lopetus, riviPituus
+  integer :: ios, total, x, y, alotus, lopetus, tiedostoPituus, i
   character(len = 10) :: tiedosto
-  character(len = :), allocatable :: temp, rivi
+  character(len = :), allocatable :: temp
+  character(len=1), allocatable :: buffer(:)
 
 
   tiedosto = "paiva3.txt"
 
-  open(unit=10, file=tiedosto, status="old", action="read", iostat=ios)
+  open(unit=10, file=tiedosto, status="old", access="stream", action="read", iostat=ios)
   if (ios /= 0) then
     print *, "Error reading file"
     stop  
   end if
 
-  temp = ""
+  inquire(unit=10, size=tiedostoPituus) !not entirely sure how this works but it works
 
-  do
-    riviPituus = 0
-    read(10, '(A)', iostat=ios) riviPituus
+  allocate(buffer(tiedostoPituus))
 
-    if (ios /= 0) exit
-    allocate(character(len=riviPituus) :: rivi)
-
-    read(10, '(A)', iostat=ios) rivi
-    if (ios /= 0) exit 
-    print *, trim(rivi)
-
-    temp = trim(temp) // trim(rivi) !string concatenation or something, idk this thing is weird
-    print *, temp
-    deallocate(rivi)
-  end do
+  read(10) buffer
   close(10)
+
+  temp=""
+
+  do i = 1, size(buffer)
+    temp = trim(adjustl(temp)) // buffer(i)
+  end do
 
   total = 0
   alotus = 1
