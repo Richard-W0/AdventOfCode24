@@ -65,7 +65,6 @@ program day3
     print *, total
 
     alotus = alotus + lopetus
-    temp = temp(alotus:)
     print *, "alotus + lopetus =", alotus
   end do
 
