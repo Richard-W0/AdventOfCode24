@@ -31,7 +31,8 @@ program day3
     if (kerto == 0) exit
     kerto = alotus + kerto - 1
 
-    if (index(temp(alotus:), "do()") > 0 .and. index(temp(alotus:), "do()") < kerto) enabled = .true.
+    if (index(temp(alotus:), "do()") > 0 .and. index(temp(alotus:), "do()") < kerto) enabled = .true. !these should work but they
+    ! dont for some reason
     if (index(temp(alotus:), "don't()") > 0 .and. index(temp(alotus:), "don't()") < kerto) enabled = .false.
 
     lopetus = index(temp(kerto:), ")")
