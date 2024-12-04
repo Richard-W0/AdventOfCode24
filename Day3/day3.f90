@@ -37,36 +37,31 @@ program day3
 
     read(temp(alotus:), '(I3)', iostat=ios) x
     if (ios /= 0) then
-      alotus = alotus + 1
-      cycle
+      print *, "Error read 1", alotus
+      exit
     end if
-    print *, x
+    print *, "x=",x, "alotus =", alotus
 
     lopetus = index(temp(alotus:), ",")
-    if (lopetus == 0) then
-      alotus = alotus + 1
-      cycle
-    end if
+    if (lopetus == 0) exit
 
     alotus = alotus + lopetus
 
     read(temp(alotus:), '(I3)', iostat=ios) y
     if (ios /= 0) then
-      alotus = alotus + 1
-      cycle
+      print *, "Error read 2"
+      exit
     end if
-    print *, y
+    print *,"y=", y, "lopetus =", lopetus
 
     lopetus = index(temp(alotus:), ")")
-    if (lopetus == 0) then
-      alotus = alotus + 1
-      cycle
-    end if
+    if (lopetus == 0) exit
 
     total = total + (x * y)
     print *, total
 
     alotus = alotus + lopetus
+    print *, "alotus + lopetus =", alotus
   end do
 
   print *, total
