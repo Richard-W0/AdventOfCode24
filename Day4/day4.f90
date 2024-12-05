@@ -10,7 +10,7 @@ program day4
   open(unit=10, file=file, status="old", access="stream", action="read", iostat=ios)
   if (ios /= 0) stop
 
-  inquire(unit=10, size=fileLen) !not exactly sure how this works, but it does
+  inquire(unit=10, size=fileLen)
   allocate(buffer(fileLen))
 
   read(10) buffer
