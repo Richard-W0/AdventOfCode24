@@ -1,4 +1,4 @@
-program findXmas
+program day4
     implicit none
     integer, parameter :: maxRows = 10000, maxCols = 10000
     character(len=1), dimension(maxRows, maxCols) :: grid
@@ -57,4 +57,4 @@ program findXmas
     end do
 
     print *, "Total occurrences of XMAS:", totalCount
-end program findXmas
+end program day4
